@@ -19,7 +19,7 @@ runs:
     - name: 'Get local path [WIN]'
       if: runner.os == 'Windows'
       id: local_path_namer_win
-      shell: pwsh
+      shell: powershell
       run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
 
     - name: 'Get local path [UNIX]'
