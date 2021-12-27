@@ -10,20 +10,27 @@ inputs:
 outputs:
   path:
     description: "The local path of the action to be used for the 'uses: <path>' in your workflow"
-    value: ${{ steps.local_path_namer.outputs.value }}
+    value: ${{ steps.local_path_namer_win.outputs.value }}${{ steps.local_path_namer_unix.outputs.value }}
 
 runs:
   using: "composite"
   steps:
 
-    # Current command is generic enough to work on both windows and unix
-    - name: 'Get local path [WIN/UNIX]'
-      id: local_path_namer
+    - name: 'Get local path [WIN]'
+      if: runner.os == 'Windows'
+      id: local_path_namer_win
+      shell: pwsh
+      run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
+
+    - name: 'Get local path [UNIX]'
+      if: runner.os != 'Windows'
+      id: local_path_namer_unix
+      shell: bash
       run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
 
     - name: 'Checkout build action'
       uses: actions/checkout@v2
       with:
         repository: ${{ inputs.repository }}
-        path: ${{ steps.local_path_namer.outputs.path }}
+        path: ${{ steps.local_path_namer_win.outputs.value }}${{ steps.local_path_namer_unix.outputs.value }}
         ssh-key: ${{ inputs.ssh-key }}
