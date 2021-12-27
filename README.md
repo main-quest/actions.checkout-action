@@ -1,0 +1,1 @@
+Checks out a private action to ./.github/actions/<owner>/<repo> and outputs this local path as 'path' so you can conveniently use it as 'uses: stepts.<this-step>.outputs.path' in your workflow

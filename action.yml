@@ -1,0 +1,29 @@
+name: "actions.checkout-action"
+description: "Checks out a private action to ./.github/actions/<owner>/<repo> and outputs this local path as 'path' so you can conveniently use it as 'uses: stepts.<this-step>.outputs.path' in your workflow"
+inputs:
+  repository:
+    required: true
+    description: "E.g. <owner>/<repo>"
+  ssh-key:
+    required: true
+
+outputs:
+  path:
+    description: "The local path of the action to be used for the 'uses: <path>' in your workflow"
+    value: ${{ steps.local_path_namer.outputs.value }}
+
+runs:
+  using: "composite"
+  steps:
+
+    # Current command is generic enough to work on both windows and unix
+    - name: 'Get local path [WIN/UNIX]'
+      id: local_path_namer
+      run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
+
+    - name: 'Checkout build action'
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ inputs.repository }}
+        path: ${{ steps.local_path_namer.outputs.path }}
+        ssh-key: ${{ inputs.ssh-key }}
