@@ -10,7 +10,7 @@ inputs:
 outputs:
   path:
     description: "The local path of the action to be used for the 'uses: <path>' in your workflow"
-    value: ${{ steps.local_path_namer_win.outputs.value }}${{ steps.local_path_namer_unix.outputs.value }}
+    value: ${{ steps.local_path_namer_win.outputs.path }}${{ steps.local_path_namer_unix.outputs.path }}
 
 runs:
   using: "composite"
@@ -28,9 +28,14 @@ runs:
       shell: bash
       run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
 
+    # - name: Test
+    #   if: runner.os == 'Windows'
+    #   shell: powershell
+    #   run: echo "TTT- '${{ steps.local_path_namer_win.outputs.path }}${{ steps.local_path_namer_unix.outputs.path }}'"
+
     - name: 'Checkout build action'
       uses: actions/checkout@v2
       with:
         repository: ${{ inputs.repository }}
-        path: ${{ steps.local_path_namer_win.outputs.value }}${{ steps.local_path_namer_unix.outputs.value }}
+        path: ${{ steps.local_path_namer_win.outputs.path }}${{ steps.local_path_namer_unix.outputs.path }}
         ssh-key: ${{ inputs.ssh-key }}
