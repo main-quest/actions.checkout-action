@@ -1,1 +1,2 @@
-Checks out a private action to ./.github/actions/&lt;owner&gt;/&lt;repo&gt; and outputs this local path as 'path' so you can conveniently use it as 'uses: stepts.&lt;this-step&gt;.outputs.path' in your workflow
+Checks out a private action to ./.github/actions/&lt;owner&gt;/&lt;repo&gt; and outputs this local path as 'path' so you can conveniently use it as 'uses: stepts.&lt;this-step&gt;.outputs.path' in your workflow.
+Update: since GitHub doesn't yet allow using variables/env inside 'uses: ', this output cannot be used atm. Use 'use: ./.github/actions/&lt;owner&gt;/&lt;repo&gt;' directly for now
