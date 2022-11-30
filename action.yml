@@ -20,13 +20,15 @@ runs:
       if: runner.os == 'Windows'
       id: local_path_namer_win
       shell: powershell
-      run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
+      # run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
+      run: echo "path=./.github/actions/${{ inputs.repository }}" >> $env.GITHUB_OUTPUT
 
     - name: 'Get local path [UNIX]'
       if: runner.os != 'Windows'
       id: local_path_namer_unix
       shell: bash
-      run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
+      # run: echo "::set-output name=path::./.github/actions/${{ inputs.repository }}"
+      run: echo "path=./.github/actions/${{ inputs.repository }}" >> $GITHUB_OUTPUT
 
     # - name: Test
     #   if: runner.os == 'Windows'
