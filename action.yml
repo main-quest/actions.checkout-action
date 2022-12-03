@@ -41,3 +41,4 @@ runs:
         repository: ${{ inputs.repository }}
         path: ${{ steps.local_path_namer_win.outputs.path }}${{ steps.local_path_namer_unix.outputs.path }}
         ssh-key: ${{ inputs.ssh-key }}
+        persist-credentials: false
